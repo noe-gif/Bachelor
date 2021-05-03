@@ -1,0 +1,66 @@
+##
+## EPITECH PROJECT, 2019
+## Makefile
+## File description:
+## makefile
+##
+
+SRC	=	my_putstr.c \
+		my_strlen.c \
+		my_strlowcase.c \
+		my_getnbr.c \
+		my_strncpy.c \
+		my_strcmp.c \
+		my_putchar.c \
+		my_put_nbr.c \
+		my_str_to_word_array.c \
+		my_custom_str_to_word_array.c \
+		my_show_word_array.c \
+		my_printf.c \
+		my_put_unsigned_int.c \
+		my_putnbr_base.c \
+		my_puthexa.c \
+		my_rev_str.c \
+		my_strcpy.c \
+		my_strcat.c \
+		my_strdup.c \
+		my_strncat.c \
+		my_custom_strcmp.c \
+		my_custom_show_word_array.c \
+		my_strclean.c \
+		my_itoa.c
+
+OBJ	=	$(SRC:.c=.o)
+
+NAME    =       libmy.a
+
+CC	=	ar rc
+
+RM	=	rm -f
+
+all:    $(NAME)
+
+$(NAME): $(OBJ)
+	gcc -c $(SRC)
+	$(CC) $(NAME) *.o
+
+clean:
+	$(RM) $(OBJ)
+
+fclean: clean
+	$(RM) $(NAME)
+
+re: fclean all
+
+
+
+
+
+
+
+
+
+
+
+
+
