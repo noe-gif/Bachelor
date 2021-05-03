@@ -1,0 +1,150 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2019
+## 102
+## File description:
+## 102
+##
+
+import sys
+import math
+from math import *
+
+def translation(x, y, i, j, matrice):
+    print("Translation along vector (", i, ", ", j, ")", sep = "")
+    print("%.2f" % matrice[0], "\t%.2f" % matrice[1], "\t%.2f" % float(i), sep = "")
+    print("%.2f" % matrice[3], "\t%.2f" % matrice[4], "\t%.2f" % float(j), sep = "")
+    print("%.2f" % matrice[6], "\t%.2f" % matrice[7], "\t%.2f" % matrice[8], sep = "")
+    print("(", "%.2f" % x, ", ", "%.2f" % y, ") => (", "%.2f" % (float(x) + float(i)), ", ",
+          "%.2f" % (float(y) + float(j)), ")", sep = "")
+
+def scaling(x, y, i, j, matrice):
+    print("Scaling by factors ", i, " and ", j, sep = "")
+    print("%.2f" % float(i), "\t%.2f" % matrice[1], "\t%.2f" % matrice[2], sep = "")      
+    print("%.2f" % matrice[3], "\t%.2f" % float(j), "\t%.2f" % matrice[5], sep = "")
+    print("%.2f" % matrice[6], "\t%.2f" % matrice[7], "\t%.2f" % matrice[8], sep = "")
+    print("(", "%.2f" % x, ", ", "%.2f" % y, ") => (", "%.2f" % (float(x) * float(i)),
+          ", ", "%.2f" % (float(y) * float(j)), ")", sep = "")
+
+def rotation(x, y, r, matrice):
+    print("Rotation by a ", sys.argv[4], " degree angle", sep = "")
+    matrice[0] = math.cos(float(r) / 180 * pi)
+    matrice[1] = -math.sin(float(r) / 180 * pi)
+    matrice[3] = math.sin(float(r) / 180 * pi)
+    matrice[4] = matrice[0]
+    rotationX = matrice[0] * x + matrice[1] * y + matrice[2]
+    rotationY = matrice[3] * x + matrice[4] * y + matrice[5]
+    print("%.2f" % matrice[0], "\t%.2f" % matrice[1], "\t%.2f" % matrice[2], sep = "")
+    print("%.2f" % matrice[3], "\t%.2f" % matrice[4], "\t%.2f" % matrice[5], sep = "")
+    print("%.2f" % matrice[6], "\t%.2f" % matrice[7], "\t%.2f" % matrice[8], sep = "")
+    print("(", "%.2f" % x, ", ", "%.2f" % y, ") => (",
+          "%.2f" % rotationX, ", ", "%.2f" % rotationY, ")", sep = "")
+
+def reflection(x, y, r, matrice):
+    print("Reflection over an axis with an inclination angle of ", sys.argv[4], " degrees", sep = "")
+    matrice[0] = math.cos(2 * float(r) / 180 * pi)
+    matrice[1] = math.sin(2 * float(r) / 180 * pi)
+    matrice[3] = math.sin(2 * float(r) / 180 * pi)
+    matrice[4] = -math.cos(2 * float(r) / 180 * pi)
+    reflectionX = matrice[0] * x + matrice[1] * y + matrice[2]
+    reflectionY = matrice[3] * x + matrice[4] * y + matrice[5]
+    print("%.2f" % matrice[0], "\t%.2f" % matrice[1], "\t%.2f" % matrice[2], sep = "")
+    print("%.2f" % matrice[3], "\t%.2f" % matrice[4], "\t%.2f" % matrice[5], sep = "")
+    print("%.2f" % matrice[6], "\t%.2f" % matrice[7], "\t%.2f" % matrice[8], sep = "")
+    print("(", "%.2f" % x, ", ", "%.2f" % y, ") => (",
+          "%.2f" % reflectionX, ", ", "%.2f" % reflectionY, ")", sep = "")
+
+def is_integer(n):
+    try:
+        float(n)
+    except ValueError:
+        return False
+    else:
+        return float(n).is_integer()
+
+def error():
+
+    if (len(sys.argv) < 5):
+        print ("invalid number of arguments")
+        sys.exit(84)
+    i = 1
+
+    while i < 3:
+        if (is_integer(sys.argv[i]) == False):
+            print ("invalid type of argument")
+            sys.exit(84)
+        i += 1
+
+    if (sys.argv[3] != "-t" and sys.argv[3] != "-z"
+        and sys.argv[3] != "-r" and sys.argv[3] != "-s"):
+        print ("invalid transfo1 set")
+        sys.exit(84)
+
+    if (sys.argv[3] == "-t" or sys.argv[3] == "-z"):
+        if (len(sys.argv) != 6):
+            print ("invalid number of arguments")
+            sys.exit(84)
+        i = 4
+        while i < 6:
+            if (is_integer(sys.argv[i]) == False):
+                print ("invalid type of argument")
+                sys.exit(84)
+            i += 1
+
+    if (sys.argv[3] == "-r" or sys.argv[3] == "-s"):
+        if (len(sys.argv) != 5 ):
+            print ("invalid number of arguments")
+            sys.exit(84)
+        i = 4
+
+        while i < 5:
+            if (is_integer(sys.argv[i]) == False):
+                print ("invalid type of argument")
+                sys.exit(84)
+            i += 1
+
+def dash_h():
+    
+    if (len(sys.argv) == 1):
+        print ("invalid number of arguments")
+        sys.exit(84)
+
+    if sys.argv[1] == '-h':
+        print('''USAGE
+        ./102architect x y transfo1 arg11 [arg12] [transfo2 arg12 [arg22]] ...
+
+DESCRIPTION
+    x   abscissa of the original point
+    y   ordinate of the original point
+
+    transfo arg1 [arg2]
+    -t i j  translation along vector (i, j)
+    -z m n  scaling by factors m (x-axis) and n (y-axis)
+    -r d    rotation centered in O by a d degree angle
+    -s d    reflection over the axis passing through O with an inclination
+            angle of d degrees''')
+        sys.exit(0)
+
+def main():
+    dash_h()
+    error()
+    matrice = [1.00, 0.00, 0.00,
+               0.00, 1.00, 0.00,
+               0.00, 0.00, 1.00]
+
+    if sys.argv[3] == "-t":
+        translation(float(sys.argv[1]), float(sys.argv[2]),
+                    sys.argv[4], sys.argv[5], matrice)
+    if sys.argv[3] == "-z":
+        scaling(float(sys.argv[1]), float(sys.argv[2]),
+                sys.argv[4], sys.argv[5], matrice)
+    if sys.argv[3] == "-r":
+        rotation(float(sys.argv[1]), float(sys.argv[2]),
+                 float(sys.argv[4]), matrice)
+    if sys.argv[3] == "-s":
+        reflection(float(sys.argv[1]), float(sys.argv[2]),
+                   float(sys.argv[4]), matrice)
+    sys.exit(0)
+
+if __name__ == '__main__':
+    main()

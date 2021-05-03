@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2020
+## math
+## File description:
+## 105torus
+##
+
+
+from math import *
+import sys
+
+def bombyx(x, k):
+    x = k * x * (1000 - x) / 1000
+    return 0 if x < 0 else x
+
+def bombyx_gen(n, k, i0):
+    x = float(n)
+    for i in range(1, i0):
+        x = bombyx(x, k)
+    return (x)
+
+def growth():
+    n = int(sys.argv[1])
+    k = float(sys.argv[2])
+    if n < 0:
+        print('error: negative number of first-gen individuals')
+    if not 1 <= k <= 4:
+        print('error: growth rate not between 1 and 4')
+    x = float(n)
+    for i in range(100):
+        print(i + 1, '%.2f' % x)
+        x = bombyx(x, k)
+    return (0)
+
+def scheme():
+    n = int(sys.argv[1])
+    i0 = int(sys.argv[2])
+    i1 = int(sys.argv[3])
+    if n < 0:
+        print('error: negative number of first-gen individuals')
+    if i0 < 1 or i1 < 1:
+        print('error: negative generation number')
+    if i0 > i1:
+        print('error: initial generation after final generation')
+    k = 1.00
+    while k < 4.00:
+        x = bombyx_gen(n, k, i0)
+        for i in range(i1 - i0 + 1):
+            print('%.2f' % k, '%.2f' % x)
+            x = bombyx(x, k)
+        k += 0.01
+    return (0)
+
+def usage():
+    print('USAGE')
+    print('\t./106bombyx n [k | i0 i1]')
+    print('DESCRIPTION')
+    print('\ttnumber of first generation individuals')
+    print('\ttgrowth rate from 1 to 4')
+    print('\ti0\tinitial generation (included)')
+    print('\ti1\tfinal generation (included)')
+
+def main():
+        #if len(sys.argv) == 1 or len(sys.argv) > 4:
+         #   sys.exit(84)
+        if sys.argv[1] == '-h':
+            usage()
+        #if int(sys.argv[1]) < 0 or int(sys.argv[1]) > 100:
+        #    sys.exit(84)
+        #if int(sys.argv[2]) < 1 or int(sys.argv[2]) > 4:
+        #    sys.exit(84)
+        if len(sys.argv) == 3:
+            return (growth())
+        if len(sys.argv) == 4:
+            return (scheme())
+if __name__ == '__main__':
+    main()
