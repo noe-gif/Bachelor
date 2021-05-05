@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2020
+## 108
+## File description:
+## trigo
+##
+
+from sys import *
+from math import *
+
+# 0.333 0.267 0.200 0.133 0.067
+#  333 267 200 133 67
+def print_results(line, x_laws, y_laws):
+    variance_x = 0.0
+    variance_y = 0.0
+    total_x = 0.0
+    total_y = 0.0
+    for i in range(0, 5):
+        total_x += x_laws[i] * ((i + 1) * 10)
+        total_y += y_laws[i] * ((i + 1) * 10)
+    for i in range(0, 5):
+        variance_x += pow((i + 1) * 10 - total_x, 2) * x_laws[i]
+        variance_y += pow((i + 1) * 10 - total_y, 2) * y_laws[i]
+
+    print("expected value of X:   ", "%.1f" % total_x)
+    print("variance of X:         ", "%.1f" % variance_x)
+    print("expected value of Y:   ", "%.1f" % total_y)
+    print("variance of Y:         ", "%.1f" % variance_y)
+    print("expected value of Z:   ", "%.1f" % float(total_x + total_y))
+    print("variance of Z:         ", "%.1f" % float(variance_x + variance_y))
+    print(line)
+
+
+def print_z(line, tab):
+    print(line)
+    print("z\t", end='')
+    for i in range(2, 11):
+        if (i == 10):
+            print(i * 10, end='')
+        else:
+            print(i * 10, "     ", end='')
+    print("\np(Z=z)\t", end='')
+    for i in range(0, 9):
+        tmp = 0
+        for y in range(0, len(tab)):
+            for x in range(0, len(tab[y])):
+                if i == (x + y):
+                    tmp += tab[y][x]
+        if (i == 8):
+            print("%.3f" % tmp, sep='', end='')
+        else:
+            print("%.3f" % tmp, '\t', sep='', end='')
+    print('\n', line, sep='')
+
+def print_tab(tab, y_laws, x_laws):
+    line = "--------------------------------------------------------------------------------"
+    print(line)
+    print("\tX=10\tX=20\tX=30\tX=40\tX=50\tY law")
+    for i in range(0, 5):
+        print("Y=", (i + 1) * 10, "    ", sep='', end='')
+        for j in range(0, 5):
+            print("%.3f" % tab[i][j], "   ", sep='', end='')
+        print("%.3f" % y_laws[i], sep='')
+    print("X law   ", sep='', end='')
+    for i in range(0, 5):
+        print("%.3f" % x_laws[i], '\t', sep='', end='')
+    print("1.000")
+    print_z(line, tab)
+    print_results(line, x_laws, y_laws)
+
+def formula(a, b, x, y):
+    result = ((a - x) * (b - y)) / ((5 * a - 150) * (5 * b - 150))
+    return result
+
+def compute(a, b):
+        elems = [[formula(a, b, x, (i + 1) * 10) for x in range(10, 60, 10)] for i in range(0, 5)]
+        y_laws = [sum(elems[i]) for i in range(0, 5)]
+        x_laws = []
+        for i in range(0, 5):
+            tmp = elems[0][i] + elems[1][i] + elems[2][i] + elems[3][i] + elems[4][i]
+            x_laws.append(tmp)
+        print_tab(elems, y_laws, x_laws)
+
+def try_args():
+    for i in range(1, 3):
+        try:
+            float(argv[i])
+        except ValueError:
+            print("Invalid Argument: Syntax error in argument", i)
+            exit(84)
+        if float(argv[i]) < 50:
+            print("Invalid Argument: The constant must be over 50.")
+            exit(84)
+
+def guide():
+    print("USAGE")
+    print("\t./202unsold a b")
+    print("\nDESCRIPTION\n")
+    print("\ta\constant computed from past results")
+    print("\tb\ constant computed from past results")
+
+def main():
+    if len(argv) == 2 and argv[1] == '-h':
+        guide()
+        exit(0)
+    if len(argv) != 3:
+        print("Wrong amount of arguments.")
+        exit(84)
+    try_args()
+    compute(float(argv[1]), float(argv[2]))
+    exit(0)
+
+if __name__ == "__main__":
+    main()

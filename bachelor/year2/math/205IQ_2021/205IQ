@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2020
+## 205
+## File description:
+## iq
+##
+
+from sys import *
+from math import *
+
+# argv = arg
+def calcMinNmax(starting, tab):
+    result = 0.0
+    max = int(tab[len(tab) - 1])
+    while (starting < max):
+        result = result + (1 / (float(tab[1]) * sqrt(2 * pi))) * exp(-0.5 * pow((float(starting) - float(tab[0])) / float(tab[1]), 2))
+        starting = starting + 0.01
+    return result
+
+def calcResults():
+    tab = []
+    for i in range(1, len(argv)):
+        tab.append(argv[i])
+    if (len(argv) == 3):
+        for i in range(0, 201):
+            result = (1 / (float(tab[1]) * sqrt(2 * pi))) * exp(-0.5 * pow((float(tab[0]) - float(i)) / float(tab[1]), 2))
+            print(i, format(round(result, 5), ".5f"))
+    if (len(argv) == 4):
+        result = calcMinNmax(0.0, tab)
+        print(format(result, ".1f"), "% of people have an IQ inferior to ", argv[3], sep="")
+    if (len(argv) == 5):
+        result = calcMinNmax(int(tab[2]), tab)
+        print(format(result, ".1f"), "% of people have an IQ between ", tab[2], " and ", tab[3], sep="")
+         
+def guide():
+    print("USAGE")
+    print("\t./205IQ u s [IQ1] [IQ2]")
+    print("\n\nDESCRIPTION")
+    print("\tu\t mean")
+    print("\ts\t standard deviation")
+    print("\tIQ1\t minimum IQ")
+    print("\tIQ2\t maximum IQ")
+
+def tryArgs():
+    try:
+        int(argv[1])
+    except ValueError:
+        print("Invalid Argument: Syntax error in argument")
+        exit(84)
+    if int(argv[1]) <= 0 or int(argv[1]) > 200:
+        print("Invalid Argument: u is out of range")
+        exit(84)
+    try:
+        int(argv[2])
+    except ValueError:
+        print("Invalid Argument: Syntax error in argument")
+        exit(84)
+    if int(argv[2]) <= 0:
+        print("Invalid Argument: s is negative")
+        exit(84)
+    if len(argv) > 3:
+        try:
+            int(argv[3])
+        except ValueError:
+            print("Invalid Argument: Syntax error in argument")
+            exit(84)
+        if int(argv[3]) < 0 or int(argv[3]) > 199:
+            print("Invalid Argument: minimum IQ is out of range")
+            exit(84)
+    if len(argv) == 5:
+        try:
+            int(argv[4])
+        except ValueError:
+            print("Invalid Argument: Syntax error in argument")
+            exit(84)
+        if int(argv[4]) < 1 or int(argv[4]) > 200 or int(argv[3]) >= int(argv[4]):
+            print("Invalid Argument: maximum IQ is out of range")
+            exit(84)
+
+def main():
+    if len(argv) == 2 and argv[1] == '-h':
+        guide()
+        exit(0)
+    if len(argv) < 3 or len(argv) > 5:
+        print("Wrong amount of arguments.")
+        exit(84)
+    tryArgs()
+    calcResults()
+    exit(0)
+
+if __name__ == "__main__":
+    main()
