@@ -1,3 +1,11 @@
-# B-OOP-400-BRU-4-1-arcade-noe.campo
-mathys.paul@epitech
-david.sokhan-san@epitech.eu
+This project simulates an arcade if video games. This project contains some bugs. 
+
+_________________________________________________
+
+
+![Alt text](screen1.png?raw=true "Optional Title")
+
+
+_________________________________________________
+
+![Alt text](screen2.png?raw=true "Optional Title")
